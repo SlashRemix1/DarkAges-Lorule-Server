@@ -1,0 +1,16 @@
+﻿@model Darkages.ServerConstants
+
+@{
+    ViewData["Title"] = "ServerConstants";
+}
+
+<h1>ServerConstants</h1>
+
+
+<div>
+    <a asp-action="Skill">New Skill Template</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

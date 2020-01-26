@@ -16,7 +16,6 @@
 //along with this program.If not, see<http://www.gnu.org/licenses/>.
 //*************************************************************************/
 using System;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace Content_Maker
@@ -31,7 +30,7 @@ namespace Content_Maker
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmMain());    
+            Application.Run(new frmMain());
         }
     }
 }

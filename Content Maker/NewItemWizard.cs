@@ -8,7 +8,6 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -24,11 +23,11 @@ namespace Content_Maker
 
         public enum SearchType
         {
-            Armors  = 0,
+            Armors = 0,
             Weapons = 1,
             Helmets = 2,
         }
-    
+
 
         public abstract class VorlofSearchInfo<T>
         {
@@ -78,21 +77,22 @@ namespace Content_Maker
             public override void Search(string lpUrl)
             {
                 Results = new List<SearchArmors>();
-    
-                var web                = new HtmlWeb();
-                var htmlDoc            = web.Load(lpUrl);
-                var displayids         = htmlDoc.DocumentNode.SelectNodes("//*[@id=\"dataTables-example\"]/tbody/tr[*]/td[1]");
+
+                var web = new HtmlWeb();
+                var htmlDoc = web.Load(lpUrl);
+                var displayids = htmlDoc.DocumentNode.SelectNodes("//*[@id=\"dataTables-example\"]/tbody/tr[*]/td[1]");
                 var displaytext_female = htmlDoc.DocumentNode.SelectNodes("//*[@id=\"dataTables-example\"]/tbody/tr[*]/td[2]/text()");
-                var displaytext_male   = htmlDoc.DocumentNode.SelectNodes("//*[@id=\"dataTables-example\"]/tbody/tr[*]/td[3]/text()"); ;
+                var displaytext_male = htmlDoc.DocumentNode.SelectNodes("//*[@id=\"dataTables-example\"]/tbody/tr[*]/td[3]/text()"); ;
 
 
-                foreach (var node in displaytext_female.Zip(displayids, (n, d) => new SearchArmors {
-                    Name      = n.InnerText,
+                foreach (var node in displaytext_female.Zip(displayids, (n, d) => new SearchArmors
+                {
+                    Name = n.InnerText,
                     DisplayID = ushort.Parse(d.InnerText),
-                    Image     = GetImageNumber(n.InnerText),
-                    Gender    = n.InnerHtml != string.Empty ? Gender.Female : Gender.Both,
-                    Path      = GetClass(n.InnerHtml),                   
-                    ImageUrl  = string.Format("http://www.vorlof.com/images/items2/{0}.png", GetImageNumber(n.InnerText)),
+                    Image = GetImageNumber(n.InnerText),
+                    Gender = n.InnerHtml != string.Empty ? Gender.Female : Gender.Both,
+                    Path = GetClass(n.InnerHtml),
+                    ImageUrl = string.Format("http://www.vorlof.com/images/items2/{0}.png", GetImageNumber(n.InnerText)),
                 }))
                 {
                     if (node.DisplayID > 0)
@@ -104,12 +104,12 @@ namespace Content_Maker
 
                 foreach (var node in displaytext_male.Zip(displayids, (n, d) => new SearchArmors
                 {
-                    Name      = n.InnerText,
+                    Name = n.InnerText,
                     DisplayID = ushort.Parse(d.InnerText),
-                    Image     = GetImageNumber(n.InnerText),
-                    Gender    = n.InnerHtml != string.Empty ? Gender.Male : Gender.Both,
-                    Path      = GetClass(n.InnerHtml),
-                    ImageUrl  = string.Format("http://www.vorlof.com/images/items2/{0}.png", GetImageNumber(n.InnerText)),
+                    Image = GetImageNumber(n.InnerText),
+                    Gender = n.InnerHtml != string.Empty ? Gender.Male : Gender.Both,
+                    Path = GetClass(n.InnerHtml),
+                    ImageUrl = string.Format("http://www.vorlof.com/images/items2/{0}.png", GetImageNumber(n.InnerText)),
                 }))
                 {
                     if (node.DisplayID > 0)
@@ -123,8 +123,8 @@ namespace Content_Maker
 
             public void DownloadImage(SearchArmors node)
             {
-                var location        = $"content_assets\\display_images\\{node.Gender.ToString()}\\armors\\";
-                var file_location   = System.IO.Path.Combine(location, node.DisplayID.ToString() + "_" + node.SpriteID.ToString() + ".png");
+                var location = $"content_assets\\display_images\\{node.Gender.ToString()}\\armors\\";
+                var file_location = System.IO.Path.Combine(location, node.DisplayID.ToString() + "_" + node.SpriteID.ToString() + ".png");
 
                 if (!Directory.Exists(location))
                 {
@@ -223,7 +223,7 @@ namespace Content_Maker
                 else
                 {
                     var jsonData = File.ReadAllText(armorPATH);
-                    var json     = JsonConvert.DeserializeObject<SearchArmors>(jsonData, settings);
+                    var json = JsonConvert.DeserializeObject<SearchArmors>(jsonData, settings);
 
                     if (json != null)
                     {
